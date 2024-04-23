@@ -2,7 +2,11 @@
 pipeline {
     agent any
     tools {
+        jdk 'jdk17'
         maven 'maven'
+    }
+    environment{
+        SCANNER_HOME=tool 'sonar-scanner'
     }
     stages {
         stage('Build') {
@@ -10,9 +14,15 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage('Package'){
+        stage('SonarQube Analysis'){
             steps {
-                sh "mvn package"
+                withSonarQubeEnv('sonar') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner z
+                    -Dsonar.projectName=Test Project \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=Test Project \
+                    -Dsonar.analysis.report.format=json'''
+                }
             }
         }
     }
