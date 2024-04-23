@@ -5,7 +5,7 @@ pipeline {
         maven 'maven'
     }
     environment{
-        SCANNER_HOME=tool 'sonar-scanner'
+        SCANNER_HOME=tool 'SonarQube-Scanner'
     }
     stages {
         stage('Build') {
@@ -16,7 +16,7 @@ pipeline {
         stage('SonarQube Analysis'){
             steps {
                 withSonarQubeEnv('sonar') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner z
+                    sh ''' $SCANNER_HOME/bin/SonarQube-Scanner z
                     -Dsonar.projectName=Test Project \
                     -Dsonar.projectKey=Test Project \
                     -Dsonar.analysis.report.format=json'''
