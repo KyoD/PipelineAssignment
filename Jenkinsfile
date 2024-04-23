@@ -13,14 +13,10 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage('SonarQube Analysis'){
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner z
-                    -Dsonar.projectName=Test Project \
-                    -Dsonar.projectKey=Test Project \
-                    -Dsonar.analysis.report.format=json'''
-                }
+        stage('SonarQube Analysis') {
+            def mvn = tool 'maven';
+            withSonarQubeEnv() {
+              sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Test-Project -Dsonar.projectName='Test Project'"
             }
         }
     }
