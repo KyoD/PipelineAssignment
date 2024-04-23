@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Karate Timeline</title>
+    <style>
+      body, html { font-family: arial, sans-serif; font-size: 11pt; }
+      #visualization { box-sizing: border-box; width: 100%; height: 300px; }
+      .vis-item.failed { background-color: #F2928C; }
+      .page-heading { padding: 0.5em; margin-bottom: 0.5em; background-color: lightcyan; border: 1px solid gray; }
+    </style>
+    <script src="res/vis.min.js"></script>
+    <link href="res/vis.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="page-heading">
+      <a href="karate-summary.html">Summary</a>
+    </div>     
+    <div id="visualization"></div>
+    <script>
+var groups = [{"content":"main","id":1}];
+var items = [{"id":1,"group":1,"content":"employees[1:6]","start":1712939252073,"end":1712939252662,"title":"employees[1:6] 17:27:32.073-17:27:32.662 Get All Employees"},{"id":2,"group":1,"content":"employees[2:12]","start":1712939252671,"end":1712939252769,"title":"employees[2:12] 17:27:32.671-17:27:32.769 Successfully creating An Employee"},{"id":3,"group":1,"content":"employees[3:18]","start":1712939252775,"end":1712939252782,"title":"employees[3:18] 17:27:32.775-17:27:32.782 Fail creating an employee too young"},{"id":4,"group":1,"content":"employees[4:25]","start":1712939252792,"end":1712939252799,"title":"employees[4:25] 17:27:32.792-17:27:32.799 Fail creating an employee with an empty field"},{"id":5,"group":1,"content":"employees[5:32]","start":1712939252807,"end":1712939252814,"title":"employees[5:32] 17:27:32.807-17:27:32.814 Fail creating an employee too old"},{"id":6,"group":1,"content":"employees[6:39]","start":1712939252820,"end":1712939252837,"title":"employees[6:39] 17:27:32.820-17:27:32.837 Successfully update an existing employee"},{"id":7,"group":1,"content":"employees[7:45]","start":1712939252843,"end":1712939252850,"title":"employees[7:45] 17:27:32.843-17:27:32.850 Fail to update a non-existent employee"},{"id":8,"group":1,"content":"employees[8:52]","start":1712939252856,"end":1712939252862,"title":"employees[8:52] 17:27:32.856-17:27:32.862 Fail to update an employee by changing email"},{"id":9,"group":1,"content":"employees[9:59]","start":1712939252870,"end":1712939252880,"title":"employees[9:59] 17:27:32.870-17:27:32.880 Fail to update an employee with an empty field"},{"id":10,"group":1,"content":"employees[10:66]","start":1712939252888,"end":1712939252903,"title":"employees[10:66] 17:27:32.888-17:27:32.903 Successfully delete an existent employee"},{"id":11,"group":1,"content":"employees[11:71]","start":1712939252910,"end":1712939252919,"title":"employees[11:71] 17:27:32.910-17:27:32.919 Fail to delete a non-existent employee"}];
+</script>
+    <script>
+      var container = document.getElementById('visualization');
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions({groupOrder: 'content'});
+      timeline.setGroups(new vis.DataSet(groups));
+      timeline.setItems(new vis.DataSet(items));
+    </script>
+  </body>
+</html>
