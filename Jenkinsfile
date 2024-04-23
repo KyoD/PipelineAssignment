@@ -2,7 +2,6 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk17'
         maven 'maven'
     }
     environment{
@@ -19,7 +18,6 @@ pipeline {
                 withSonarQubeEnv('sonar') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner z
                     -Dsonar.projectName=Test Project \
-                    -Dsonar.java.binaries=. \
                     -Dsonar.projectKey=Test Project \
                     -Dsonar.analysis.report.format=json'''
                 }
