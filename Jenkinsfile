@@ -1,4 +1,5 @@
 /* Requires the Docker Pipeline plugin */
+/* Adding comment for triggering sonarqube */
 pipeline {
     agent any
     tools {
