@@ -65,7 +65,7 @@ public class MovieService {
 	}
 	
 	private void checkForEmptyFields(Movie movie) throws MovieValidationException {	
-		if (errorValidation.emptyFields(movie)) {
+		if (errorValidation.emptyOrNullFields(movie)) {
 			throw new MovieValidationException(ErrorMessages.EMPTY_FIELDS.getMsg());
 		}
 	}
