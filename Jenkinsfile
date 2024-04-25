@@ -14,18 +14,16 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage('Start Application') {
+        stage('Start Movie Service for Karate') {
             steps {
                 sh 'mvn spring-boot:run &'
                 sleep(time: 5, unit: 'SECONDS') // Wait X seconds for the application to start
             }
         }
-        stage('Run Unit and Integration Tests') {
+        stage('Run Unit and Karate Tests') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh "mvn test"
-                    junit '**/target/surefire-reports/*.xml'
-                }
+                sh "mvn test"
+                junit '**/target/surefire-reports/*.xml'
             }
         }
         stage('SonarQube Analysis') {
@@ -40,10 +38,6 @@ pipeline {
         always {
             // Stop the application after tests
             sh 'pkill -f "java -jar"'
-        }
-        
-        unstable {
-            echo 'Karate tests failed but continuing with subsequent stages'
         }
     }
 }
