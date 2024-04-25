@@ -57,6 +57,12 @@ public class ErrorValidationTest {
 	void validYear() {
 		movie.setYear("2020");
 		assertFalse(errorValidation.emptyOrNullFields(movie));
+		
+		movie.setYear("2020");
+		assertFalse(errorValidation.isYearInvalid(movie));
+		
+		movie.setYear("2024");
+		assertFalse(errorValidation.isYearInvalid(movie));
 	}
 	
 	@Test
@@ -66,5 +72,23 @@ public class ErrorValidationTest {
 		
 		movie.setYear(null);
 		assertTrue(errorValidation.emptyOrNullFields(movie));
+	}
+	
+	@Test
+	void invalidYearTooOld() {
+		movie.setYear("1974");
+		assertTrue(errorValidation.isYearInvalid(movie));
+		
+		movie.setYear("");
+		assertTrue(errorValidation.isYearInvalid(movie));
+	}
+	
+	@Test
+	void invalidYearInFuture() {
+		movie.setYear("2025");
+		assertTrue(errorValidation.isYearInvalid(movie));
+		
+		movie.setYear("2077");
+		assertTrue(errorValidation.isYearInvalid(movie));
 	}
 }

@@ -15,4 +15,13 @@ public class ErrorValidation {
 		return (movie.getDirector().length() == 0 || movie.getName().length() == 0
 				|| movie.getYear().length() == 0);
 	}
+	
+	public boolean isYearInvalid(Movie movie) {
+		String year = movie.getYear();
+		if(year == null || year.length() == 0)
+			return true;
+		
+		Integer yearInt = Integer.parseInt(year);
+		return yearInt < 1975 || yearInt > 2024;
+	}
 }

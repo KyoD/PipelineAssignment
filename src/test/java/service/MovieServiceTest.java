@@ -42,7 +42,7 @@ public class MovieServiceTest {
 	}
 	
 	@Test
-	void createEmployeeSuccess() throws MovieValidationException {
+	void createMovieSuccess() throws MovieValidationException {
 		Movie movie = buildValidMovie();
 		Movie newMovie = buildValidMovie();
 		newMovie.setId(10L);
@@ -56,7 +56,7 @@ public class MovieServiceTest {
 	}
 	
 	@Test
-	void createEmployeeExistingFail() throws MovieValidationException {
+	void createMovieExistingFail() throws MovieValidationException {
 		Movie movie = buildValidMovie();
 		Movie existingMovie = buildValidMovie();
 		existingMovie.setId(10L);
@@ -68,7 +68,7 @@ public class MovieServiceTest {
 	}
 	
 	@Test
-	void createEmployeeEmptyFieldFail() throws MovieValidationException {
+	void createMovieEmptyFieldFail() throws MovieValidationException {
 		Movie movie = buildValidMovie();
 		movie.setName("");
 		
@@ -76,6 +76,17 @@ public class MovieServiceTest {
 
 		MovieValidationException ex = assertThrows(MovieValidationException.class, () -> movieService.createMovie(movie));
 		assertEquals(ex.getMessage(), ErrorMessages.EMPTY_FIELDS.getMsg());
+	}
+	
+	@Test
+	void createMovieEInvalidYearFail() throws MovieValidationException {
+		Movie movie = buildValidMovie();
+		movie.setYear("1974");
+		
+		when(movieRepository.findByName(movie.getName())).thenReturn(null);
+
+		MovieValidationException ex = assertThrows(MovieValidationException.class, () -> movieService.createMovie(movie));
+		assertEquals(ex.getMessage(), ErrorMessages.INVALID_YEAR.getMsg());
 	}
 
 	

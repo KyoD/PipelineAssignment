@@ -68,6 +68,19 @@ public class MovieControllerTest {
 	}
 	
 	@Test
+	void addMovieFailInvalidYear() throws MovieValidationException {
+		Movie movie = buildValidMovie();
+		
+		ErrorMessage errorTothrow = new ErrorMessage(ErrorMessages.INVALID_YEAR.getMsg());
+		when(movieService.createMovie(movie)).thenThrow(new MovieValidationException(errorTothrow.getErrorMessage()));
+		ResponseEntity response = movieController.addMovie(movie);
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		
+		ErrorMessage errorReturned = (ErrorMessage)response.getBody();
+		assertEquals(errorTothrow.getErrorMessage(), errorReturned.getErrorMessage());
+	}
+	
+	@Test
 	void updateMovieSuccess() throws MovieValidationException {
 		long id = 100L;
 		Movie movie = buildValidMovie();

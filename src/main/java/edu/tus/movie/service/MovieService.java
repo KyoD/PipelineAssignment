@@ -31,6 +31,7 @@ public class MovieService {
 	// CREATE
 	public Movie createMovie(Movie movie) throws MovieValidationException {
 		checkForEmptyFields(movie);
+		checkForInvalidYear(movie);
 		if (movieRepository.findByName(movie.getName()) != null) {
 			throw new MovieValidationException(ErrorMessages.ALREADY_EXISTS.getMsg());
 		}
@@ -49,6 +50,7 @@ public class MovieService {
 			throw new MovieValidationException(ErrorMessages.NO_MOVIE_FOUND.getMsg());
 		}
 		checkForEmptyFields(movie);
+		checkForInvalidYear(movie);
 		if (!(movie.getName()).equals(storedEmployee.get().getName())){
 			throw new MovieValidationException(ErrorMessages.NO_NAME_UPDATE.getMsg());
 		}
@@ -67,6 +69,12 @@ public class MovieService {
 	private void checkForEmptyFields(Movie movie) throws MovieValidationException {	
 		if (errorValidation.emptyOrNullFields(movie)) {
 			throw new MovieValidationException(ErrorMessages.EMPTY_FIELDS.getMsg());
+		}
+	}
+	
+	private void checkForInvalidYear(Movie movie) throws MovieValidationException {	
+		if (errorValidation.isYearInvalid(movie)) {
+			throw new MovieValidationException(ErrorMessages.INVALID_YEAR.getMsg());
 		}
 	}
 }
