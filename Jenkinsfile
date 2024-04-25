@@ -29,14 +29,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps{
                 withSonarQubeEnv('sonar') {
-                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Test-Project -Dsonar.projectName='Test Project'"
+                  sh "mvn sonar:sonar -Dsonar.projectKey=Test-Project -Dsonar.projectName='Test Project'"
                 }
             }
         }
     }
     //post {
         //always {
-            // Stop the application after tests
+             //Stop the application after tests
             //sh 'pkill -f "java -jar"'
        // }
     //}
