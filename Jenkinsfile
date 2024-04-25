@@ -17,7 +17,7 @@ pipeline {
         stage('Start Movie Service for Karate') {
             steps {
                 sh 'mvn spring-boot:run &'
-                sleep(time: 5, unit: 'SECONDS') // Wait X seconds for the application to start
+                sleep(time: 10, unit: 'SECONDS') // Wait X seconds for the application to start
             }
         }
         stage('Run Unit and Karate Tests') {
