@@ -34,11 +34,11 @@ pipeline {
             }
         }
     }
-    post {
-        always {
+    //post {
+        //always {
             // Stop the application after tests
             //sh 'pkill -f "java -jar"'
-        }
-    }
+       // }
+    //}
 }
 
