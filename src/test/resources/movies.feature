@@ -1,7 +1,7 @@
 Feature: Testing Employee Controller
 
 Background:
-  * url 'http://localhost:8082'
+  * url apiBasePath
 
 Scenario: Get All Movies
   Given path '/api/movies'
