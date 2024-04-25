@@ -39,9 +39,13 @@ pipeline {
             // Stop the application after tests
             sh 'pkill -f "java -jar"'
         }
-        unstable {
-            // Mark the build as unstable if there are test failures
-            echo 'Marking build as unstable due to test failures'
+        script {
+            def testResult = currentBuild.result
+
+            if (testResult == 'FAILURE') {
+                echo 'Karate tests failed but continuing with subsequent stages'
+                currentBuild.result = 'UNSTABLE'
+            }
         }
     }
 }
