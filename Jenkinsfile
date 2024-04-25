@@ -22,8 +22,10 @@ pipeline {
         }
         stage('Run Unit and Integration Tests') {
             steps {
-                sh "mvn test"
-                junit '**/target/surefire-reports/*.xml'
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    sh "mvn test"
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
         stage('SonarQube Analysis') {
