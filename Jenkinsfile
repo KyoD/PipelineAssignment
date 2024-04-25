@@ -39,13 +39,9 @@ pipeline {
             // Stop the application after tests
             sh 'pkill -f "java -jar"'
         }
-        script {
-            def testResults = currentBuild.rawBuild.result.toString()
-
-            if (testResults == 'FAILURE') {
-                echo 'Karate tests failed but continuing with subsequent stages'
-                currentBuild.result = 'UNSTABLE'
-            }
+        
+        unstable {
+            echo 'Karate tests failed but continuing with subsequent stages'
         }
     }
 }
