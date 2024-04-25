@@ -40,9 +40,9 @@ pipeline {
             sh 'pkill -f "java -jar"'
         }
         script {
-            def testResult = currentBuild.result
+            def testResults = currentBuild.rawBuild.result.toString()
 
-            if (testResult == 'FAILURE') {
+            if (testResults == 'FAILURE') {
                 echo 'Karate tests failed but continuing with subsequent stages'
                 currentBuild.result = 'UNSTABLE'
             }
