@@ -14,7 +14,13 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage('Unit Tests') {
+        stage('Start Application') {
+            steps {
+                sh 'mvn spring-boot:run &'
+                sleep(time: 5, unit: 'SECONDS') // Wait X seconds for the application to start
+            }
+        }
+        stage('Run Unit and Integration Tests') {
             steps {
                 sh "mvn test"
                 junit '**/target/surefire-reports/*.xml'
@@ -26,6 +32,12 @@ pipeline {
                   sh "mvn clean verify sonar:sonar -Dsonar.projectKey=Test-Project -Dsonar.projectName='Test Project'"
                 }
             }
+        }
+    }
+    post {
+        always {
+            // Stop the application after tests
+            sh 'pkill -f "java -jar"'
         }
     }
 }
