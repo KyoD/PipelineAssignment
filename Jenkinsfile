@@ -37,7 +37,7 @@ pipeline {
     post {
         always {
             // Stop the application after tests
-            sh 'pkill -f "java -jar"'
+            //sh 'pkill -f "java -jar"'
         }
     }
 }
