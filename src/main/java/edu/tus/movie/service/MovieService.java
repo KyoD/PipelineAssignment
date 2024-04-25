@@ -45,24 +45,26 @@ public class MovieService {
 
 	
 	public Movie updateMovie(Long id, Movie movie) throws MovieValidationException {
-		Optional<Movie> storedEmployee = movieRepository.findById(id);
-		if (storedEmployee.isEmpty()) {
+		Optional<Movie> optionalStoredMovie = movieRepository.findById(id);
+		if (optionalStoredMovie.isEmpty()) {
 			throw new MovieValidationException(ErrorMessages.NO_MOVIE_FOUND.getMsg());
 		}
+		Movie storedMovie = optionalStoredMovie.get();
+		
 		checkForEmptyFields(movie);
 		checkForInvalidYear(movie);
-		if (!(movie.getName()).equals(storedEmployee.get().getName())){
+		if (!(movie.getName()).equals(storedMovie.getName())){
 			throw new MovieValidationException(ErrorMessages.NO_NAME_UPDATE.getMsg());
 		}
 		return movieRepository.save(movie);
 	}
 
 	public void deleteMovie(Long id) throws MovieValidationException {
-		Optional<Movie> storedEmployee=movieRepository.findById(id);
-		if (storedEmployee.isEmpty()) {
+		Optional<Movie> storedMovie = movieRepository.findById(id);
+		if (storedMovie.isEmpty()) {
 			throw new MovieValidationException(ErrorMessages.NO_MOVIE_FOUND.getMsg());
 		}
-		movieRepository.delete(storedEmployee.get());
+		movieRepository.delete(storedMovie.get());
 		
 	}
 	

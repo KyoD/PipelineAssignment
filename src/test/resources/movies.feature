@@ -43,29 +43,29 @@ Scenario: Fail creating a duplicate movie
   Then status 400
   And match response == {"errorMessage":"This movie already exists"}
   
-Scenario: Successfully update an existing employee
-  Given path '/api/movies/1'
-  And request {"firstName":"Dave","lastName":"Bloggs","emailAddress":"joe@gmail.com","age":20}
+Scenario: Successfully update a movie
+  Given path '/api/movies/5'
+  And request {"name":"Titanic", "year":"2010","director":"Joe Bloggs"}
   When method PUT
   Then status 200
   
-Scenario: Fail to update a non-existent employee
-  Given path '/api/movies/199'
-  And request {"firstName":"Dave","lastName":"Bloggs","emailAddress":"d@gmail.com","age":20}
+Scenario: Fail to update a non-existent movie
+  Given path '/api/movies/1992'
+  And request {"name":"Titanic", "year":"2010","director":"Joe Bloggs"}
   When method PUT
   Then status 400
-  And match response == {"errorMessage":"No employee found"}
+  And match response == {"errorMessage":"No movie found"}
   
-Scenario: Fail to update an employee by changing email
-  Given path '/api/movies/1'
-  And request {"firstName":"Dave","lastName":"Bloggs","emailAddress":"somethingdifferent@gmail.com","age":20}
+Scenario: Fail to update a movie by changing its name
+  Given path '/api/movies/5'
+  And request {"name":"Titanic 2", "year":"2010","director":"Joe Bloggs"}
   When method PUT
   Then status 400
-  And match response == {"errorMessage":"Employee email address cannot be updated"}
+  And match response == {"errorMessage":"Movie name cannot be updated!"}
   
 Scenario: Fail to update an employee with an empty field
   Given path '/api/movies/1'
-  And request {"firstName":"","lastName":"","emailAddress":"joe@gmail.com","age":20}
+  And request {"name":"", "year":"","director":""}
   When method PUT
   Then status 400
   And match response == {"errorMessage":"One of more empty field"}
@@ -79,4 +79,4 @@ Scenario: Fail to delete a non-existent employee
   Given path '/api/movies/2011'
   When method DELETE
   Then status 404
-  And match response == {"errorMessage":"No employee found"}
+  And match response == {"errorMessage":"No movie found"}
