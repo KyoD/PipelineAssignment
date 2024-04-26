@@ -4,11 +4,9 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-		dockerTool 'docker'
     }
     environment{
         SCANNER_HOME=tool 'SonarQube-Scanner'
-		DOCKER_ACCESS_TOKEN = credentials('docker-creds')
         DOCKER_IMAGE_NAME = 'movie-service'
         EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
     }
@@ -37,22 +35,22 @@ pipeline {
                 }
             }
         }
-		stage('Build and Push Docker Image') {
+		stage('Deploy To EC2 Instance') {
             steps {
-				script {
-                    // Your Docker commands here, such as docker login and docker push
-                    sh "docker login -u dazzk -p ${DOCKER_ACCESS_TOKEN}"
-                    sh "docker build -t ${DOCKER_IMAGE_NAME} ."
-                    sh "docker push ${DOCKER_IMAGE_NAME}"
-                }
+                // Copy the JAR file to the EC2 instance using SSH
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: '4670da32-576a-4b05-b283-526495333891',
+                            transfers: [
+                                sshTransfer(execCommand: "mkdir -p /opt/movie-service", sourceFiles: "target/*.jar"),
+                                sshTransfer(execCommand: "cp target/*.jar*.jar /opt/movie-service")
+                            ]
+                        )
+                    ]
+                )
             }
         }
     }
-    //post {
-        //always {
-             //Stop the application after tests
-            //sh 'pkill -f "java -jar"'
-       // }
-    //}
 }
 
