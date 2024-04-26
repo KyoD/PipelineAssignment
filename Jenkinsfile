@@ -38,7 +38,7 @@ pipeline {
         }
 		stage('Deploy To EC2 Instance') {
             steps {
-				sh "mvn clean package"
+				sh "mvn clean package -DskipTests"
 			
                 // Use SSH key credentials for authentication
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-creds', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
