@@ -7,7 +7,7 @@ pipeline {
     }
     environment{
         SCANNER_HOME=tool 'SonarQube-Scanner'
-		DOCKER_REGISTRY_CREDENTIALS = 'dckr_pat_cXTcXj2UqOJBQmto_oMvnJzBGqw' // ID of Docker credentials in Jenkins
+		DOCKER_ACCESS_TOKEN = credentials('your-docker-credentials-id')
         DOCKER_IMAGE_NAME = 'movie_service'
         EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
     }
@@ -38,13 +38,11 @@ pipeline {
         }
 		stage('Build and Push Docker Image') {
             steps {
-                script {
-                    docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
-                }
 				script {
-                    docker.withRegistry('https://your-docker-registry-url', DOCKER_REGISTRY_CREDENTIALS) {
-                        docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}").push()
-                    }
+                    // Your Docker commands here, such as docker login and docker push
+                    sh "docker login -u dazzk -p ${DOCKER_ACCESS_TOKEN}"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+                    sh "docker push ${DOCKER_IMAGE_NAME}"
                 }
             }
         }
