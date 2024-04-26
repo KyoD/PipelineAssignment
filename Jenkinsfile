@@ -7,7 +7,7 @@ pipeline {
     }
     environment{
         SCANNER_HOME=tool 'SonarQube-Scanner'
-		DOCKER_ACCESS_TOKEN = credentials('your-docker-credentials-id')
+		DOCKER_ACCESS_TOKEN = credentials('docker-creds')
         DOCKER_IMAGE_NAME = 'movie_service'
         EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
     }
