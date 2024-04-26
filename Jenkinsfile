@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean package"
+                sh "mvn clean compile"
             }
         }
         stage('Start Movie Service for Karate') {
@@ -38,6 +38,8 @@ pipeline {
         }
 		stage('Deploy To EC2 Instance') {
             steps {
+				sh "mvn clean compile"
+			
                 // Use SSH key credentials for authentication
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-creds', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
                     // Copy the JAR file to the EC2 instance using SCP
