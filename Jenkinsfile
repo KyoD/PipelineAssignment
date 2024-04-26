@@ -41,7 +41,7 @@ pipeline {
                 // Use SSH key credentials for authentication
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-creds', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
                     // Copy the JAR file to the EC2 instance using SCP
-                    sh "scp -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY target/*.jar ec2-user@${EC2_INSTANCE_IP}:/opt/movie-service/"
+                    sh "scp -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} target/*.jar ec2-user@${EC2_INSTANCE_IP}:/opt/movie-service/"
                 }
             }
         }
