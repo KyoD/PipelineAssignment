@@ -9,6 +9,7 @@ pipeline {
         SCANNER_HOME=tool 'SonarQube-Scanner'
         DOCKER_IMAGE_NAME = 'movie-service'
         EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
+		SSH_CONFIG_NAME = 'ec2-ssh-creds'
     }
     stages {
         stage('Build') {
@@ -37,18 +38,11 @@ pipeline {
         }
 		stage('Deploy To EC2 Instance') {
             steps {
-                // Copy the JAR file to the EC2 instance using SSH
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: '4670da32-576a-4b05-b283-526495333891',
-                            transfers: [
-                                sshTransfer(execCommand: "mkdir -p /opt/movie-service", sourceFiles: "target/*.jar"),
-                                sshTransfer(execCommand: "cp target/*.jar*.jar /opt/movie-service")
-                            ]
-                        )
-                    ]
-                )
+                // Use sshagent to run SSH commands
+                sshagent(credentials: ['${SSH_CONFIG_NAME}']) {
+                    // Copy the JAR file to the EC2 instance using SCP
+                    sh "scp -o StrictHostKeyChecking=no target/*.jar user@${EC2_INSTANCE_IP}:/opt/movie-service/"
+                }
             }
         }
     }
