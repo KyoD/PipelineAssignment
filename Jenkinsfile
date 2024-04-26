@@ -7,6 +7,9 @@ pipeline {
     }
     environment{
         SCANNER_HOME=tool 'SonarQube-Scanner'
+		DOCKER_REGISTRY_CREDENTIALS = 'dckr_pat_cXTcXj2UqOJBQmto_oMvnJzBGqw' // ID of Docker credentials in Jenkins
+        DOCKER_IMAGE_NAME = 'movie_service'
+        EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
     }
     stages {
         stage('Build') {
@@ -30,6 +33,18 @@ pipeline {
             steps{
                 withSonarQubeEnv('sonar') {
                   sh "mvn sonar:sonar -Dsonar.projectKey=Test-Project -Dsonar.projectName='Test Project'"
+                }
+            }
+        }
+		stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                }
+				script {
+                    docker.withRegistry('https://your-docker-registry-url', DOCKER_REGISTRY_CREDENTIALS) {
+                        docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}").push()
+                    }
                 }
             }
         }
