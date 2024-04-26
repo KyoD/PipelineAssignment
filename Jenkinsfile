@@ -42,9 +42,9 @@ pipeline {
 				sh "mvn clean package -DskipTests"
 			
                 // Use SSH key credentials for authentication
-                withCredentials([sshUserPrivateKey(credentialsId: 'ec2-secret-file', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
+                withCredentials([file(credentialsId: 'ec2-secret-file', keyFileVariable: 'SSH_PEM_FILE')]) {
                     // Copy the JAR file to the EC2 instance using SCP
-                    sh "scp -v -o StrictHostKeyChecking=no -i \$SSH_PRIVATE_KEY /var/jenkins_home/workspace/Movie_Service_CI/target/*.jar ec2-user@${EC2_INSTANCE_IP}:/opt/movie-service/"
+                    sh "scp -v -o StrictHostKeyChecking=no -i \$SSH_PEM_FILE /var/jenkins_home/workspace/Movie_Service_CI/target/*.jar ec2-user@${EC2_INSTANCE_IP}:/opt/movie-service/"
                 }
             }
         }
