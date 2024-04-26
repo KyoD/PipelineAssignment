@@ -44,7 +44,7 @@ pipeline {
                 // Use SSH key credentials for authentication
                 withCredentials([file(credentialsId: 'ec2-secret-file', keyFileVariable: 'SSH_PEM_FILE')]) {
                     // Copy the JAR file to the EC2 instance using SCP
-                    sh "scp -v -o StrictHostKeyChecking=no -i \$SSH_PEM_FILE /var/jenkins_home/workspace/Movie_Service_CI/target/*.jar ec2-user@${EC2_INSTANCE_IP}:/opt/movie-service/"
+                    sh "scp -v -o StrictHostKeyChecking=no -i \$SSH_PEM_FILE /var/jenkins_home/workspace/Movie_Service_CI/target/*.jar ec2-user@ec2-52-90-148-156.compute-1.amazonaws.com:/opt/movie-service/"
                 }
             }
         }
