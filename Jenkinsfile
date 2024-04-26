@@ -4,6 +4,7 @@ pipeline {
     agent any
     tools {
         maven 'maven'
+		docker 'docker'
     }
     environment{
         SCANNER_HOME=tool 'SonarQube-Scanner'
