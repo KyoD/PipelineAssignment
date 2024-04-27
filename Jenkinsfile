@@ -26,7 +26,10 @@ pipeline {
             steps {
                 sh "mvn test"
                 junit '**/target/surefire-reports/*.xml'
-		//archiveArtifacts '**/target/surefire-reports/*.xml'
+		// Generate JaCoCo coverage reports
+                sh "mvn jacoco:report"
+                // Archive JaCoCo XML report as artifact for later use
+                archiveArtifacts 'target/site/jacoco/jacoco.xml'
             }
         }
         stage('SonarQube Analysis') {
