@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh "mvn test"
                 junit '**/target/surefire-reports/*.xml'
-		archiveArtifacts '**/target/surefire-reports/*.xml'
+		//archiveArtifacts '**/target/surefire-reports/*.xml'
             }
         }
         stage('SonarQube Analysis') {
