@@ -1,5 +1,4 @@
 /* Requires the Docker Pipeline plugin */
-/* Adding comment for triggering sonarqube again again sdsad das adsdd*/
 pipeline {
     agent any
     tools {
