@@ -24,12 +24,8 @@ pipeline {
         }
         stage('Run Unit and Karate Tests') {
             steps {
-                sh "mvn test"
+                sh "mvn test jacoco:prepare-agent"
                 junit '**/target/surefire-reports/*.xml'
-		// Generate JaCoCo coverage reports
-                sh "mvn jacoco:report"
-                // Archive JaCoCo XML report as artifact for later use
-                archiveArtifacts 'target/site/jacoco/jacoco.xml'
             }
         }
         stage('SonarQube Analysis') {
