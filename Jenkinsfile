@@ -1,4 +1,4 @@
-/* Requires the Docker Pipeline plugin */
+/* Requires the Docker Pipeline plugin auto trigger jenkins */
 pipeline {
     agent any
     tools {
