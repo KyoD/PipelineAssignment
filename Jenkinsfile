@@ -37,10 +37,9 @@ pipeline {
                 }
             }
         }
-		stage('Deploy To EC2 Instance') {
+	stage('Deploy To EC2 Instance') {
             steps {
-				sh "mvn clean package -DskipTests"
-			
+		sh "mvn clean package -DskipTests"
                 // Use SSH key credentials for authentication
                 withCredentials([file(credentialsId: 'ec2-secret-file', keyFileVariable: 'SSH_PEM_FILE')]) {
                     // Copy the JAR file to the EC2 instance using SCP
