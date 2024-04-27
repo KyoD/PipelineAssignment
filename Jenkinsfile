@@ -18,12 +18,12 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage('Start Movie Service for Karate') {
-            steps {
-                sh 'mvn spring-boot:run &'
-                sleep(time: 10, unit: 'SECONDS') // Wait X seconds for the application to start
-            }
-        }
+        //stage('Start Movie Service for Karate') {
+            //steps {
+                //sh 'mvn spring-boot:run &'
+                //sleep(time: 10, unit: 'SECONDS') // Wait X seconds for the application to start
+            //}
+        //}
         stage('Run Unit and Karate Tests') {
             steps {
                 sh "mvn test"
