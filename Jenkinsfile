@@ -9,8 +9,6 @@ pipeline {
         SCANNER_HOME=tool 'SonarQube-Scanner'
         DOCKER_IMAGE_NAME = 'movie-service'
         EC2_INSTANCE_IP = 'ec2-52-90-148-156.compute-1.amazonaws.com'
-		//SSH_CREDENTIALS_ID  = 'ec2-ssh-creds'
-		//SSH_PRIVATE_KEY = credentials('ec2-ssh-creds')
     }
     stages {
         stage('Build') {
